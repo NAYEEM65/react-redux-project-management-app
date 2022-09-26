@@ -7,7 +7,6 @@ import Teams from './pages/Teams';
 import { Toaster } from 'react-hot-toast';
 import Projects from './pages/Projects';
 import Register from './pages/Register';
-import Loader from './components/common/Loader';
 
 function App() {
     const authCheck = useAuthChecked();
