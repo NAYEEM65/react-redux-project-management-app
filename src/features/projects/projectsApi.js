@@ -59,7 +59,7 @@ export const projectsApi = apiSlice.injectEndpoints({
             }),
             async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 const response = dispatch(
-                    apiSlice.util.updateQueryData('getProjects', (draft) => {
+                    apiSlice.util.updateQueryData('getProjects', undefined, (draft) => {
                         draft.forEach((element, index) => {
                             if (Number(element.id) === Number(arg)) {
                                 draft.splice(index, 1);

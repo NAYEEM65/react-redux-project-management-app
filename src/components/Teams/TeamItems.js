@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useGetTeamsQuery } from '../../features/teams/teamsApi';
+import Loader from '../common/Loader';
 import TeamItem from './TeamItem';
 
 const TeamItems = () => {
@@ -16,7 +17,7 @@ const TeamItems = () => {
     let content;
 
     if (isTeamsLoad) {
-        content = <div className="px-10 mt-4">Loading...</div>;
+        content = <Loader />;
     } else if (!isTeamsLoad && isTeamsError) {
         content = <div className="px-10 mt-4">Something went wrong!</div>;
     } else if (!isTeamsLoad && !isTeamsError && teams.length === 0) {
