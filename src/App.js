@@ -21,7 +21,7 @@ function App() {
                     path="/"
                     element={
                         <AuthRoute>
-                            <Loader />
+                            <Login />
                         </AuthRoute>
                     }
                 />
