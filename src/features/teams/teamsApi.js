@@ -33,6 +33,7 @@ export const teamsApi = apiSlice.injectEndpoints({
                 } catch (err) {}
             },
         }),
+
         addTeamMember: builder.mutation({
             query: ({ id, data }) => ({
                 url: `/teams/${id}`,

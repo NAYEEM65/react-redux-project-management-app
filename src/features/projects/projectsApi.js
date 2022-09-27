@@ -13,7 +13,6 @@ export const projectsApi = apiSlice.injectEndpoints({
                 body: data,
             }),
             async onQueryStarted(arg, { queryFulfilled, dispatch }) {
-                console.log(arg);
                 try {
                     const resData = await queryFulfilled;
                     // pasimistic update of projects cache

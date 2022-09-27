@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { useAddProjectMutation, useGetProjectsQuery } from '../../features/projects/projectsApi';
 import { useGetTeamQuery } from '../../features/teams/teamsApi';
+import { debounceHandler } from '../../utils/debounce';
 import Error from '../common/Error';
 
 const AddProjectModal = ({ setModalOpen }) => {
@@ -10,13 +11,10 @@ const AddProjectModal = ({ setModalOpen }) => {
     const [title, setTitle] = useState('');
     const [skipReq, setSkipReq] = useState(true);
     const [disabled, setDisabled] = useState(true);
-
     const { user } = useSelector((state) => state.auth) || {};
     const { email, avatar } = user || {};
-
     const { data: teams } = useGetTeamQuery({ email, team: team.toLowerCase() }, { skip: skipReq });
     const { data: projects } = useGetProjectsQuery('');
-
     const [addProject, { isLoading, isSuccess }] = useAddProjectMutation();
 
     useEffect(() => {
@@ -27,26 +25,15 @@ const AddProjectModal = ({ setModalOpen }) => {
         }
     }, [teams, title, projects]);
 
-    const debounceHandler = (fn, delay) => {
-        let timeoutId;
-        return (...arg) => {
-            clearTimeout(timeoutId);
-
-            timeoutId = setTimeout(() => {
-                fn(...arg);
-            }, delay);
-        };
-    };
-
-    const doSearch = (value) => {
+    const addNewProject = (value) => {
         if (value.length > 0) {
             setTeam(value);
             setSkipReq(false);
         }
     };
-
-    const handleSearch = debounceHandler(doSearch, 500);
-
+    //debounce addNewProject
+    const handleSearch = debounceHandler(addNewProject, 500);
+    //project submit Handler
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -64,7 +51,7 @@ const AddProjectModal = ({ setModalOpen }) => {
     useEffect(() => {
         if (isSuccess) {
             setModalOpen(false);
-            toast.success('Project added successfully!');
+            toast.success('Project added successfully!', { position: 'top-right' });
         }
     }, [isSuccess, setModalOpen]);
 

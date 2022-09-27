@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEditProjectMutation } from '../../features/projects/projectsApi';
 import ProjectCard from './ProjectCard';
-import ProjectCards from './ProjectCards';
 import ProjectStatus from './ProjectStatus';
 import { useDrop } from 'react-dnd';
 import { useSelector } from 'react-redux';
@@ -12,6 +11,7 @@ const ProjectItems = ({ projects, name }) => {
     const filteredProjects = projects?.filter((project) => project.status === status);
 
     const [editProject] = useEditProjectMutation() || [];
+
     // eslint-disable-next-line no-unused-vars
     const [{ isOver }, drop] = useDrop(() => ({
         accept: 'dragCard',
@@ -20,7 +20,7 @@ const ProjectItems = ({ projects, name }) => {
             isOver: !!monitor.isOver(),
         }),
     }));
-
+    //drop function
     const addCardDrop = (id) => {
         const updatedProject = { status: status };
         editProject({ id, data: updatedProject, email: user.email });
@@ -34,12 +34,12 @@ const ProjectItems = ({ projects, name }) => {
                 addBtn={status === 'backlog' ? true : false}
             />
 
-            <ProjectCards>
+            <div className="flex flex-col pb-2 overflow-auto bg-white bg-opacity-30 backdrop-blur-sm px-2 rounded-lg min-h-[456px]">
                 {filteredProjects?.length > 0 &&
                     filteredProjects.map((project) => (
                         <ProjectCard title={name} key={project.id} project={project} />
                     ))}
-            </ProjectCards>
+            </div>
         </div>
     );
 };

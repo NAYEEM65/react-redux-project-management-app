@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { useAddTeamsMutation, useGetAllTeamsQuery } from '../../features/teams/teamsApi';
+import { debounceHandler } from '../../utils/debounce';
 import Error from '../common/Error';
 
 const TeamCardModal = ({ setIsOpen }) => {
@@ -28,25 +29,14 @@ const TeamCardModal = ({ setIsOpen }) => {
         }
     }, [teams, title]);
 
-    const debounceHandler = (fn, delay) => {
-        let timeoutId;
-        return (...arg) => {
-            clearTimeout(timeoutId);
-
-            timeoutId = setTimeout(() => {
-                fn(...arg);
-            }, delay);
-        };
-    };
-
-    const doSearch = (value) => {
+    const addTeamCard = (value) => {
         if (value.length > 0) {
             setTeam(value);
             setSkipReq(false);
         }
     };
-
-    const handleSearch = debounceHandler(doSearch, 500);
+    //debounceHandler
+    const handleSearch = debounceHandler(addTeamCard, 500);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -63,17 +53,17 @@ const TeamCardModal = ({ setIsOpen }) => {
     useEffect(() => {
         if (isSuccess) {
             setIsOpen(false);
-            toast.success('Team added successfully!');
+            toast.success('Team added successfully!', { position: 'top-right' });
         }
     }, [isSuccess, setIsOpen]);
 
     return (
-        <div className="fixed top-0 left-0 w-full flex items-center justify-center bg-slate-900 h-full bg-opacity-60 z-10">
+        <div className="fixed top-0 left-0 w-full flex items-center justify-center bg-slate-800 h-full bg-opacity-60 z-10">
             <div
                 onClick={() => setIsOpen(false)}
-                className="absolute w-full h-full bg-slate-900 bg-opacity-60"
+                className="absolute w-full h-full bg-slate-800 bg-opacity-60"
             ></div>
-            <div className="bg-white w-11/12 md:w-2/5 sm:w-3/5 rounded-lg p-8 z-10">
+            <div className="w-11/12 overflow-hidden md:w-2/5 sm:w-3/5  p-8 z-10 flex flex-col pb-2 bg-white bg-opacity-30 backdrop-blur-sm rounded-lg">
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-center">
                     Add new team!
                 </h3>
@@ -96,15 +86,30 @@ const TeamCardModal = ({ setIsOpen }) => {
                                     className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-violet-500 focus:border-violet-500 focus:z-10 sm:text-sm"
                                     onChange={(e) => setColor(e.target.value)}
                                 >
-                                    <option value="red" defaultValue>
+                                    <option value="red" className="bg-red-200" defaultValue>
                                         Red
                                     </option>
-                                    <option value="green">Green</option>
-                                    <option value="yellow">Yellow</option>
-                                    <option value="violet">Violet</option>
-                                    <option value="pink">Pink</option>
-                                    <option value="orange">Orange</option>
-                                    <option value="teal">Teal</option>
+                                    <option value="green" className="bg-green-200">
+                                        Green
+                                    </option>
+                                    <option value="yellow" className="bg-yellow-200">
+                                        Yellow
+                                    </option>
+                                    <option
+                                        value="violet"
+                                        className="bg-violet-200 hover:bg-violet-400"
+                                    >
+                                        Violet
+                                    </option>
+                                    <option value="pink" className="bg-pink-200">
+                                        Pink
+                                    </option>
+                                    <option value="orange" className="bg-orange-200">
+                                        Orange
+                                    </option>
+                                    <option value="teal" className="bg-teal-200">
+                                        Teal
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -129,7 +134,7 @@ const TeamCardModal = ({ setIsOpen }) => {
                     <div>
                         <button
                             type="submit"
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 disabled:bg-gray-300"
+                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 disabled:bg-gray-300 "
                             disabled={disabled || isLoading}
                         >
                             Add team

@@ -15,9 +15,7 @@ const ProjectCard = ({ project, title: status }) => {
 
     const projectId = project.id;
     const [modalOpen, setModalOpen] = useState(false);
-    const [deleteProjects, { isLoading, isSuccess }] = useDeleteProjectMutation({
-        refetchOnMountOrArgChange: true,
-    });
+    const [deleteProjects, { isLoading, isSuccess }] = useDeleteProjectMutation();
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'dragCard',
         item: { id },
@@ -45,11 +43,12 @@ const ProjectCard = ({ project, title: status }) => {
     }
     const handleDelete = (projectId) => {
         deleteProjects({ id: projectId, email: email });
+
+        toast.success('Project deleted successfully!', { position: 'top-right' });
     };
     useEffect(() => {
         if (isSuccess) {
             setModalOpen(false);
-            toast.success('Project deleted successfully!');
         }
     }, [isSuccess, setModalOpen]);
     useEffect(() => {
@@ -70,7 +69,7 @@ const ProjectCard = ({ project, title: status }) => {
     return (
         <div
             className={`relative cursor-all-scroll flex flex-col items-start p-4 mt-3 bg-white rounded-lg  bg-opacity-90 group hover:bg-opacity-100 ${
-                textFound && 'ring-2 ring-pink-500 ring-inset'
+                textFound && 'animate-pulse ring-2 ring-pink-500 ring-inset'
             }`}
             draggable="true"
             ref={drag}
@@ -81,10 +80,10 @@ const ProjectCard = ({ project, title: status }) => {
             ></div>
             {status === 'Backlog' && (
                 <div className="absolute top-0 right-0 items-center justify-center hidden w-5 h-5 mt-3 mr-2 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex">
-                    <div className="dropdown dropdown-end">
+                    <div className="dropdown dropdown-left">
                         <label
                             tabIndex="0"
-                            className="btn btn-ghost rounded-lg px-3 w-full gap-3 btn-circle avatar hover:bg-gray-200"
+                            className="btn btn-ghost rounded-lg px-3 w-full gap-3 btn-circle avatar hover:bg-transparent"
                         >
                             <svg
                                 className="w-4 h-4 fill-current"
@@ -97,11 +96,11 @@ const ProjectCard = ({ project, title: status }) => {
                         </label>
                         <ul
                             tabIndex="0"
-                            className="mt-3 p-2 shadow menu bg-white bg-opacity-60 menu-compact dropdown-content rounded-lg w-52"
+                            className="mt-2 text-center shadow menu bg-white bg-opacity-60 menu-compact dropdown-content rounded-lg w-28"
                         >
                             <li>
                                 <span
-                                    className="cursor-pointer text-gray-600 bg-white bg-opacity-60 hover:bg-white px-5 font-semibold py-2 rounded-lg transition-all delay-75"
+                                    className="cursor-pointer text-white bg-red-600 bg-opacity-60 hover:bg-red-700 px-5 font-semibold py-2 rounded-lg transition-all delay-75"
                                     onClick={() => handleDelete(projectId)}
                                     disabled={isLoading}
                                 >

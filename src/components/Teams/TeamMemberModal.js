@@ -6,6 +6,7 @@ import isValidEmail from '../../utils/isValidEmail';
 import Error from '../common/Error';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { debounceHandler } from '../../utils/debounce';
 
 const TeamCardModal = ({ id, members, setIsOpen }) => {
     // local state
@@ -14,8 +15,7 @@ const TeamCardModal = ({ id, members, setIsOpen }) => {
     const [disabled, setDisabled] = useState(true);
 
     const { data: user } = useGetUserQuery(email, { skip: skipReq });
-    const [addTeamMember, { isLoading, isSuccess }] =
-        useAddTeamMemberMutation();
+    const [addTeamMember, { isLoading, isSuccess }] = useAddTeamMemberMutation();
 
     const existingMember = members.filter((member) => member.email === email);
 
@@ -27,25 +27,14 @@ const TeamCardModal = ({ id, members, setIsOpen }) => {
         }
     }, [user, existingMember]);
 
-    const debounceHandler = (fn, delay) => {
-        let timeoutId;
-        return (...arg) => {
-            clearTimeout(timeoutId);
-
-            timeoutId = setTimeout(() => {
-                fn(...arg);
-            }, delay);
-        };
-    };
-
-    const doSearch = (value) => {
+    const addTeam = (value) => {
         if (isValidEmail(value)) {
             setEmail(value);
             setSkipReq(false);
         }
     };
-
-    const handleSearch = debounceHandler(doSearch, 500);
+    //debounce
+    const handleSearch = debounceHandler(addTeam, 500);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -102,9 +91,7 @@ const TeamCardModal = ({ id, members, setIsOpen }) => {
                         <Error message={'Member already exist in the team!'} />
                     )}
 
-                    {user?.length === 0 && (
-                        <Error message={'No user founded!'} />
-                    )}
+                    {user?.length === 0 && <Error message={'No user founded!'} />}
                 </form>
             </div>
         </div>

@@ -5,6 +5,7 @@ import { userLoggedOut } from '../../features/auth/authSlice';
 import logo from '../../images/logo.png';
 import { searchProject } from '../../features/projects/projectsSlice';
 import gravatarUrl from 'gravatar-url';
+import { debounceHandler } from '../../utils/debounce';
 
 const Navigation = () => {
     // eslint-disable-next-line no-unused-vars
@@ -15,16 +16,6 @@ const Navigation = () => {
     const { user } = useSelector((state) => state.auth) || {};
     const { name, email } = user || {};
     const dispatch = useDispatch();
-    const debounceHandler = (fn, delay) => {
-        let timeoutId;
-        return (...arg) => {
-            clearTimeout(timeoutId);
-
-            timeoutId = setTimeout(() => {
-                fn(...arg);
-            }, delay);
-        };
-    };
 
     const doSearch = (value) => {
         if (value.length > 0) {
@@ -43,7 +34,7 @@ const Navigation = () => {
     };
 
     return (
-        <div className="flex items-center justify-between py-3 px-10 bg-white bg-opacity-75">
+        <div className="flex items-center justify-between py-3 px-10 backdrop-blur-sm bg-white bg-opacity-50">
             <div className="flex items-center">
                 <img src={logo} alt="logo" className="h-10 w-10" />
 
@@ -68,7 +59,7 @@ const Navigation = () => {
 
                 {projects && (
                     <input
-                        className={`flex items-center h-10 px-4 ml-10 text-sm bg-gray-200 rounded-full focus:outline-none focus:ring`}
+                        className={`flex items-center h-10 px-4 ml-10 text-sm bg-gray-300 rounded-full focus:outline-none focus:ring`}
                         type="search"
                         placeholder="Search for anything…"
                         onChange={(e) => handleSearch(e.target.value)}
@@ -86,10 +77,7 @@ const Navigation = () => {
                         <img src={gravatarUrl(email, { size: 80 })} alt={name} />
                     </div>
                 </label>
-                <ul
-                    tabIndex="0"
-                    className="mt-3 p-2 shadow menu bg-white bg-opacity-60 menu-compact dropdown-content rounded-lg w-52"
-                >
+                <ul tabIndex="0" className="mt-2 shadow menu menu-compact dropdown-content w-28">
                     <li>
                         <span
                             onClick={handleLogout}
