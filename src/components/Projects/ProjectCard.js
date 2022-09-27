@@ -41,11 +41,14 @@ const ProjectCard = ({ project, title: status }) => {
     } else if (color === 'teal') {
         teamColor = 'text-teal-600 bg-teal-100';
     }
+    //delete handler
     const handleDelete = (projectId) => {
         deleteProjects({ id: projectId, email: email });
 
         toast.success('Project deleted successfully!', { position: 'top-right' });
     };
+
+    //navigate hooks
     useEffect(() => {
         if (isSuccess) {
             setModalOpen(false);

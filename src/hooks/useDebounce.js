@@ -1,4 +1,4 @@
-export const debounceHandler = (fn, delay) => {
+export const useDebounce = (fn, delay) => {
     let timeoutId;
     return (...arg) => {
         clearTimeout(timeoutId);

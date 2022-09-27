@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { useAddTeamsMutation, useGetAllTeamsQuery } from '../../features/teams/teamsApi';
-import { debounceHandler } from '../../utils/debounce';
+import { useDebounce } from '../../hooks/useDebounce';
 import Error from '../common/Error';
 
 const TeamCardModal = ({ setIsOpen }) => {
@@ -29,6 +29,7 @@ const TeamCardModal = ({ setIsOpen }) => {
         }
     }, [teams, title]);
 
+    //team card handler
     const addTeamCard = (value) => {
         if (value.length > 0) {
             setTeam(value);
@@ -36,7 +37,7 @@ const TeamCardModal = ({ setIsOpen }) => {
         }
     };
     //debounceHandler
-    const handleSearch = debounceHandler(addTeamCard, 500);
+    const handleSearch = useDebounce(addTeamCard, 500);
 
     const handleSubmit = (e) => {
         e.preventDefault();

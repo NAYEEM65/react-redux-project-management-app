@@ -6,7 +6,7 @@ import isValidEmail from '../../utils/isValidEmail';
 import Error from '../common/Error';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { debounceHandler } from '../../utils/debounce';
+import { useDebounce } from '../../hooks/useDebounce';
 
 const TeamCardModal = ({ id, members, setIsOpen }) => {
     // local state
@@ -34,8 +34,9 @@ const TeamCardModal = ({ id, members, setIsOpen }) => {
         }
     };
     //debounce
-    const handleSearch = debounceHandler(addTeam, 500);
+    const handleSearch = useDebounce(addTeam, 500);
 
+    //handle submit
     const handleSubmit = (e) => {
         e.preventDefault();
 

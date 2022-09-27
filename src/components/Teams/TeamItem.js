@@ -7,7 +7,7 @@ const TeamItem = ({ team }) => {
     const [isOpen, setIsOpen] = useState(false);
     const { id, team: teamName, title, color, date, members } = team || {};
 
-    // manage colors
+    // manage colors patern
     let teamColor = '';
     if (color === 'red') {
         teamColor = 'text-red-600 bg-red-100';

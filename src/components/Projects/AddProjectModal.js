@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { useAddProjectMutation, useGetProjectsQuery } from '../../features/projects/projectsApi';
 import { useGetTeamQuery } from '../../features/teams/teamsApi';
-import { debounceHandler } from '../../utils/debounce';
+import { useDebounce } from '../../hooks/useDebounce';
 import Error from '../common/Error';
 
 const AddProjectModal = ({ setModalOpen }) => {
@@ -32,7 +32,7 @@ const AddProjectModal = ({ setModalOpen }) => {
         }
     };
     //debounce addNewProject
-    const handleSearch = debounceHandler(addNewProject, 500);
+    const handleSearch = useDebounce(addNewProject, 500);
     //project submit Handler
     const handleSubmit = (e) => {
         e.preventDefault();

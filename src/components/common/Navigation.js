@@ -5,7 +5,7 @@ import { userLoggedOut } from '../../features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import { searchProject } from '../../features/projects/projectsSlice';
 import gravatarUrl from 'gravatar-url';
-import { debounceHandler } from '../../utils/debounce';
+import { useDebounce } from '../../hooks/useDebounce';
 
 const Navigation = () => {
     // eslint-disable-next-line no-unused-vars
@@ -26,7 +26,7 @@ const Navigation = () => {
         dispatch(searchProject(value));
     };
 
-    const handleSearch = debounceHandler(doSearch, 500);
+    const handleSearch = useDebounce(doSearch, 500);
 
     const handleLogout = () => {
         dispatch(userLoggedOut());

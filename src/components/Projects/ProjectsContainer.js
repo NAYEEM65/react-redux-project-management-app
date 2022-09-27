@@ -9,6 +9,7 @@ const ProjectsContainer = () => {
     const { user } = useSelector((state) => state.auth) || {};
     const { data: projects, isLoading, isError } = useGetProjectsQuery(user?.email) || {};
     const stages = ['Backlog', 'Ready', 'Doing', 'Review', 'Blocked', 'Done'];
+    //manage content
     let content = '';
     if (isLoading) {
         content = <Loader />;
