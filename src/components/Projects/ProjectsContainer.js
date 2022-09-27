@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useGetProjectsQuery } from '../../features/projects/projectsApi';
 import Error from '../common/Error';
 import Loader from '../common/Loader';
@@ -6,7 +7,8 @@ import ProjectItems from './ProjectItems';
 import ProjectsHead from './ProjectsHead';
 
 const ProjectsContainer = () => {
-    const { data: projects, isLoading, isError } = useGetProjectsQuery() || {};
+    const { user } = useSelector((state) => state.auth) || {};
+    const { data: projects, isLoading, isError } = useGetProjectsQuery(user?.email) || {};
     const stages = ['Backlog', 'Ready', 'Doing', 'Review', 'Blocked'];
     let content = '';
     if (isLoading) {

@@ -4,8 +4,10 @@ import ProjectCard from './ProjectCard';
 import ProjectCards from './ProjectCards';
 import ProjectStatus from './ProjectStatus';
 import { useDrop } from 'react-dnd';
+import { useSelector } from 'react-redux';
 
 const ProjectItems = ({ projects, name }) => {
+    const { user } = useSelector((state) => state.auth) || {};
     const status = name.toLowerCase();
     const filteredProjects = projects?.filter((project) => project.status === status);
 
@@ -21,7 +23,7 @@ const ProjectItems = ({ projects, name }) => {
 
     const addCardDrop = (id) => {
         const updatedProject = { status: status };
-        editProject({ id, data: updatedProject });
+        editProject({ id, data: updatedProject, email: user.email });
     };
 
     return (

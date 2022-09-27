@@ -44,7 +44,7 @@ const ProjectCard = ({ project, title: status }) => {
         teamColor = 'text-teal-600 bg-teal-100';
     }
     const handleDelete = (projectId) => {
-        deleteProjects(projectId);
+        deleteProjects({ id: projectId, email: email });
     };
     useEffect(() => {
         if (isSuccess) {

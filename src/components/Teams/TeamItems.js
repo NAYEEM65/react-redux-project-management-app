@@ -6,6 +6,7 @@ import TeamItem from './TeamItem';
 
 const TeamItems = () => {
     const { user } = useSelector((state) => state.auth) || {};
+    console.log(user);
 
     const {
         data: teams,
