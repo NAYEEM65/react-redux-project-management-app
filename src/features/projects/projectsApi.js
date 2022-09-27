@@ -3,7 +3,7 @@ import { apiSlice } from '../api/apiSlice';
 export const projectsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getProjects: builder.query({
-            query: (email) => `/projects?email=${email}`,
+            query: (email) => `/projects?email=${email}&_sort=date&_order=desc`,
         }),
 
         addProject: builder.mutation({

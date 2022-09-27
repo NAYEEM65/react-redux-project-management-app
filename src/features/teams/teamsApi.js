@@ -3,11 +3,11 @@ import { apiSlice } from '../api/apiSlice';
 export const teamsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAllTeams: builder.query({
-            query: ({ team }) => `/teams?team=${team}`,
+            query: ({ team }) => `/teams?team=${team}&_sort=date&_order=desc`,
         }),
 
         getTeams: builder.query({
-            query: (email) => `/teams?q=${email}`,
+            query: (email) => `/teams?q=${email}&_sort=date&_order=desc`,
         }),
         getTeam: builder.query({
             query: ({ email, team }) => `/teams?q=${email}&team=${team}`,
@@ -26,7 +26,7 @@ export const teamsApi = apiSlice.injectEndpoints({
                     if (id) {
                         dispatch(
                             apiSlice.util.updateQueryData('getTeams', email, (draft) => {
-                                draft.push(data);
+                                draft.unshift(data);
                             }),
                         );
                     }
