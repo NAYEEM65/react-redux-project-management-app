@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useMatch } from 'react-router-dom';
 import { userLoggedOut } from '../../features/auth/authSlice';
-import logo from '../../images/logo.png';
+import logo from '../../assets/images/logo.png';
 import { searchProject } from '../../features/projects/projectsSlice';
 import gravatarUrl from 'gravatar-url';
 import { debounceHandler } from '../../utils/debounce';

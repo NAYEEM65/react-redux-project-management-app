@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLoginMutation } from '../features/auth/authApi';
-import logo from '../images/logo.png';
+import logo from '../assets/images/logo.png';
+import toast from 'react-hot-toast';
+import { useEffect } from 'react';
 
 const Login = () => {
-    // local states
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     // auth api
-    const [login] = useLoginMutation();
+    // eslint-disable-next-line no-unused-vars
+    const [login, { isLoading, isSuccess }] = useLoginMutation();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         login({ email, password });
     };
+    const handleDemoAccount = () => {
+        setEmail('admin@gmail.com');
+        setPassword('12345');
+    };
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('Login successful');
+        }
+    }, [isSuccess]);
 
     return (
         <div className="flex flex-col w-screen h-screen overflow-auto text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
@@ -72,11 +83,17 @@ const Login = () => {
                                     </label>
                                 </div>
                             </div>
-                            <div className="flex items-center justify-end">
+                            <div className="flex items-center justify-between">
+                                <button
+                                    className="group w-1/2 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"
+                                    onClick={handleDemoAccount}
+                                >
+                                    try demo account
+                                </button>
                                 <div className="text-sm">
                                     <Link
                                         to="/register"
-                                        className="font-medium text-violet-600 hover:text-violet-500"
+                                        className="group w-40 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"
                                     >
                                         Register
                                     </Link>
